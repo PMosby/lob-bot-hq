@@ -1,0 +1,16 @@
+type: handoff
+schema_version: 1
+ticket: 2
+ticket_repo: PMosby/lob-bot-hq
+from: po
+to: lob-bot
+status: done
+timestamp: 2026-05-26T22:04:00Z
+title: "Done with bogus extra fields"
+fields:
+  acceptance:
+    - "should not be here on a done handoff"
+    - "second one"
+  effort: S
+  priority: P3
+notes: "this should fail because done forbids ready-shape fields"

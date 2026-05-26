@@ -1,0 +1,10 @@
+type: handoff
+schema_version: 1
+ticket: 2
+ticket_repo: PMosby/lob-bot-hq
+from: po
+to: lob-bot
+status: done
+timestamp: 2026-05-26T22:04:00Z
+title: "Static index.html: centered Anna is my darling on pastel background"
+notes: "qa-pass accepted; all 5 acceptance criteria verified; no regressions"

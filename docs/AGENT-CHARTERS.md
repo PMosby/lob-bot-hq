@@ -215,3 +215,5 @@ If any are missing, do not emit `status: ready`. Either fill them in or `chatter
 4. **Log everything ticket-related** in `team/handoffs/<sprint>/<ticket>/`.
 5. **Read your charter every session.** Charters can change; treat the latest committed version of this file as authoritative.
 6. **Escalation order:** worker → PO (for scope) → human (via Lob-bot Interface) for everything PO can't resolve.
+7. **Inherit `ticket` and `ticket_repo` verbatim.** Every emitted message MUST copy these two fields from the incoming handoff/chatter being responded to. NEVER infer, guess, or substitute (e.g. `PMosby/project-x` is a placeholder, never a real value). If a worker has no incoming message yet (cold start), it must emit `chatter` to PO asking for ticket creation rather than fabricate one — see PO's **Mandatory ticket-first rule**.
+8. **Threading by ticket.** All work for ticket `N` in repo `R` belongs in `team/handoffs/<sprint>/<N>/`. Filenames within: `handoff.yml` (latest), `history.yml` (append-only log of every prior handoff for this ticket).

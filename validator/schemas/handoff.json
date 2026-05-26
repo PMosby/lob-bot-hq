@@ -12,8 +12,7 @@
     "to",
     "status",
     "timestamp",
-    "title",
-    "fields"
+    "title"
   ],
   "additionalProperties": false,
   "properties": {
@@ -29,10 +28,12 @@
     "fields": { "type": "object" },
     "notes": { "type": "string", "maxLength": 500 }
   },
+  "$comment": "fields is optional at the top level; per-status branches in allOf below enforce its presence and shape only for statuses that require it (ready, assigned, ready-for-test, qa-pass, qa-fail, blocked). Terminal/lightweight statuses (done, triage, in-sprint, in-progress, ready-for-review) accept an optional traceability fields object but require none.",
   "allOf": [
     {
-      "if": { "properties": { "status": { "const": "ready" } } },
+      "if": { "properties": { "status": { "const": "ready" } }, "required": ["status"] },
       "then": {
+        "required": ["fields"],
         "properties": {
           "fields": {
             "type": "object",
@@ -57,8 +58,9 @@
       }
     },
     {
-      "if": { "properties": { "status": { "const": "assigned" } } },
+      "if": { "properties": { "status": { "const": "assigned" } }, "required": ["status"] },
       "then": {
+        "required": ["fields"],
         "properties": {
           "fields": {
             "type": "object",
@@ -78,8 +80,9 @@
       }
     },
     {
-      "if": { "properties": { "status": { "const": "ready-for-test" } } },
+      "if": { "properties": { "status": { "const": "ready-for-test" } }, "required": ["status"] },
       "then": {
+        "required": ["fields"],
         "properties": {
           "fields": {
             "type": "object",
@@ -119,9 +122,11 @@
       "if": {
         "properties": {
           "status": { "enum": ["qa-pass", "qa-fail"] }
-        }
+        },
+        "required": ["status"]
       },
       "then": {
+        "required": ["fields"],
         "properties": {
           "fields": {
             "type": "object",
@@ -165,8 +170,9 @@
       }
     },
     {
-      "if": { "properties": { "status": { "const": "blocked" } } },
+      "if": { "properties": { "status": { "const": "blocked" } }, "required": ["status"] },
       "then": {
+        "required": ["fields"],
         "properties": {
           "fields": {
             "type": "object",
@@ -181,6 +187,40 @@
               "details": { "type": "string" }
             }
           }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "done" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "fields": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "pr": { "type": "string", "format": "uri" },
+              "merged_at": { "$ref": "common.json#/$defs/isoTimestamp" },
+              "merge_commit": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{7,40}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": ["triage", "in-sprint", "in-progress", "ready-for-review"]
+          }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "fields": { "type": "object" }
         }
       }
     }

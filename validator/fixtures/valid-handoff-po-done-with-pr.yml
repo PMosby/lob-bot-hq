@@ -1,0 +1,14 @@
+type: handoff
+schema_version: 1
+ticket: 2
+ticket_repo: PMosby/lob-bot-hq
+from: po
+to: lob-bot
+status: done
+timestamp: 2026-05-26T22:04:00Z
+title: "Static index.html: centered Anna is my darling on pastel background"
+fields:
+  pr: "https://github.com/PMosby/lob-bot-hq/pull/42"
+  merged_at: 2026-05-26T22:03:00Z
+  merge_commit: "abc1234"
+notes: "qa-pass accepted; all 5 acceptance criteria verified"

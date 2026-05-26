@@ -1,0 +1,17 @@
+type: handoff
+schema_version: 1
+ticket: 2
+ticket_repo: PMosby/lob-bot-hq
+from: qa
+to: engineer
+status: qa-fail
+timestamp: 2026-05-26T22:10:00Z
+title: "Missing pr field should fail"
+fields:
+  acceptance_results:
+    - criterion: "Repo contains index.html"
+      result: fail
+      evidence: "not found"
+  regressions: []
+  recommendation: reject
+notes: "this should fail validation because fields.pr is required on qa-pass/qa-fail"

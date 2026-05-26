@@ -1,0 +1,10 @@
+type: handoff
+schema_version: 1
+ticket: 2
+ticket_repo: PMosby/lob-bot-hq
+from: scrum
+to: engineer
+status: in-progress
+timestamp: 2026-05-26T21:30:00Z
+title: "Engineer picked up ticket"
+notes: "tracking only; no fields required for in-progress"

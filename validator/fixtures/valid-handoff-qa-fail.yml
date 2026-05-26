@@ -1,0 +1,30 @@
+type: handoff
+schema_version: 1
+ticket: 2
+ticket_repo: PMosby/lob-bot-hq
+from: qa
+to: engineer
+status: qa-fail
+timestamp: 2026-05-26T22:10:00Z
+title: "Static index.html: heading not centered at 1280x800"
+fields:
+  pr: "https://github.com/PMosby/lob-bot-hq/pull/42"
+  acceptance_results:
+    - criterion: "Repo contains index.html at project root"
+      result: pass
+      evidence: "ls -la /workspace/lob-bot-hq/index.html"
+    - criterion: "Page renders heading text exactly 'Anna is my darling' inside a single <h1>"
+      result: pass
+      evidence: "grep -c '<h1>Anna is my darling</h1>' index.html == 1"
+    - criterion: "Heading is horizontally and vertically centered in the viewport at 1280x800"
+      result: fail
+      evidence: "playwright screenshot shows h1 at y=412 (expected y=400+/-8); body lacks display:flex; computed text-align is left, not center"
+    - criterion: "Background color is a pastel hex (lightness >= 85% in HSL, saturation <= 60%)"
+      result: pass
+      evidence: "#f4e1e8 -> HSL(343, 47%, 92%) — within spec"
+    - criterion: "File opens directly in a browser via file:// with no build step and no external network requests"
+      result: pass
+      evidence: "no <script src>, no <link href>; opened directly via file:// in headless chrome, zero network requests"
+  regressions: []
+  recommendation: needs-changes
+notes: "centering broke when body display rule was removed; add display:flex+align-items+justify-content back"
