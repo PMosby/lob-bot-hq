@@ -17,6 +17,8 @@ If it changes scope, acceptance, or priority → **handoff via board**.
 If it's "what did you mean by X" or "can I assume Y" → **chatter is fine, log it**.
 If chatter goes more than ~3 exchanges → escalate to board (PO/Scrum comment).
 
+**Both message types REQUIRE a ticket.** If no ticket exists yet (e.g. fresh request from human via lob-bot), PO files a triage ticket first (`Status: Inbox`), THEN emits chatter/handoff referencing it. See AGENT-CHARTERS.md § PO "Mandatory ticket-first rule."
+
 ---
 
 ## Schema: `handoff`

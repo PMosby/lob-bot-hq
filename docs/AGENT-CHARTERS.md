@@ -40,6 +40,15 @@ One section per worker agent. Each charter is the agent's full job description. 
 - Ambiguous spec from human → emit `handoff` to `lob-bot` with `status: blocked`, `needs: human`, list the ambiguities
 - Cannot reach board → `status: blocked`, `needs: external`
 
+**Mandatory ticket-first rule (Phase 1 process decision, 2026-05-26):**
+
+Every `chatter` and `handoff` requires a ticket. When a new request arrives from `lob-bot` with no ticket, PO MUST:
+
+1. File a triage ticket on the board first (via `gh issue create`), with `Status: Inbox` and `Agent: po`
+2. Then emit `chatter` referencing that ticket number to clarify, or `handoff` with `status: ready` if the request is already clear
+
+This keeps every conversation anchored to a permanent board record. Triage tickets are cheap; file them generously.
+
 **Definition of "ready":**
 A ticket is `ready` when it has:
 - A title under 80 chars
