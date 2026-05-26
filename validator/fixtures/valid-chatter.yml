@@ -1,0 +1,11 @@
+type: chatter
+schema_version: 1
+ticket: 42
+ticket_repo: PMosby/project-x
+from: engineer
+to: po
+timestamp: 2026-05-26T18:30:00Z
+question: "auth lib expects email or username — which?"
+response: "email only"
+responded_by: po
+responded_at: 2026-05-26T18:32:00Z

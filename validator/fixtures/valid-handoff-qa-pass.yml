@@ -1,0 +1,24 @@
+type: handoff
+schema_version: 1
+ticket: 42
+ticket_repo: PMosby/project-x
+from: qa
+to: po
+status: qa-pass
+timestamp: 2026-05-26T20:10:00Z
+title: "Add login form"
+fields:
+  pr: https://github.com/PMosby/project-x/pull/87
+  acceptance_results:
+    - criterion: "POST /login returns 200 with valid creds"
+      result: pass
+      evidence: "tests/login.test.ts:14 — passed"
+    - criterion: "POST /login returns 401 with bad creds"
+      result: pass
+      evidence: "tests/login.test.ts:31 — passed"
+    - criterion: "Email validated client-side"
+      result: pass
+      evidence: "manual: invalid email blocks submit"
+  regressions: []
+  recommendation: approve
+notes: "Rate limit also tested, works."

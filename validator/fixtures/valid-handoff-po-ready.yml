@@ -1,0 +1,18 @@
+type: handoff
+schema_version: 1
+ticket: 42
+ticket_repo: PMosby/project-x
+from: po
+to: scrum
+status: ready
+timestamp: 2026-05-26T18:00:00Z
+title: "Add login form"
+fields:
+  acceptance:
+    - "POST /login returns 200 with valid creds"
+    - "POST /login returns 401 with bad creds"
+    - "Email validated client-side"
+  effort: M
+  priority: P2
+  dependencies: []
+notes: "Use existing auth lib in src/lib/auth.ts"

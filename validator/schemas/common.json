@@ -1,0 +1,47 @@
+{
+  "$id": "https://lob-bot-hq/schemas/common.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Shared definitions",
+  "$defs": {
+    "agentName": {
+      "type": "string",
+      "enum": ["lob-bot", "po", "scrum", "engineer", "qa"]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "triage",
+        "ready",
+        "in-sprint",
+        "assigned",
+        "in-progress",
+        "ready-for-test",
+        "qa-pass",
+        "qa-fail",
+        "ready-for-review",
+        "done",
+        "blocked"
+      ]
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["P0", "P1", "P2", "P3"]
+    },
+    "effort": {
+      "type": "string",
+      "enum": ["S", "M", "L", "XL"]
+    },
+    "ticketRepo": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+/[A-Za-z0-9._-]+$"
+    },
+    "isoTimestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ticketNumber": {
+      "type": "integer",
+      "minimum": 1
+    }
+  }
+}

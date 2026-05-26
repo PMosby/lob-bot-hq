@@ -1,0 +1,20 @@
+type: handoff
+schema_version: 1
+ticket: 42
+ticket_repo: PMosby/project-x
+from: engineer
+to: qa
+status: ready-for-test
+timestamp: 2026-05-26T19:42:00Z
+title: "Add login form"
+fields:
+  pr: https://github.com/PMosby/project-x/pull/87
+  branch: engineer/42-add-login
+  changed_files:
+    - src/routes/login.ts
+    - src/lib/validate.ts
+    - tests/login.test.ts
+  test_command: "npm test -- --grep login"
+  self_test: passed
+  setup_required: false
+notes: "Added 5/min rate limit per IP. Email validation uses RFC5322 regex."

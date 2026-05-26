@@ -1,0 +1,13 @@
+type: handoff
+schema_version: 1
+ticket: 42
+ticket_repo: PMosby/project-x
+from: po
+to: scrum
+status: ready
+timestamp: 2026-05-26T18:00:00Z
+title: "Add login form"
+fields:
+  acceptance:
+    - "Only one criterion"
+  priority: P2

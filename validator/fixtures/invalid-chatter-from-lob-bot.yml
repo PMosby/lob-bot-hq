@@ -1,0 +1,8 @@
+type: chatter
+schema_version: 1
+ticket: 42
+ticket_repo: PMosby/project-x
+from: lob-bot
+to: po
+timestamp: 2026-05-26T18:30:00Z
+question: "Workers can't be addressed by lob-bot via chatter; this should fail."

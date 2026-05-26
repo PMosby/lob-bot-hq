@@ -1,0 +1,44 @@
+{
+  "$id": "https://lob-bot-hq/schemas/chatter.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Caveman protocol — chatter message",
+  "type": "object",
+  "required": [
+    "type",
+    "schema_version",
+    "ticket",
+    "ticket_repo",
+    "from",
+    "to",
+    "timestamp",
+    "question"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "type": { "const": "chatter" },
+    "schema_version": { "const": 1 },
+    "ticket": { "$ref": "common.json#/$defs/ticketNumber" },
+    "ticket_repo": { "$ref": "common.json#/$defs/ticketRepo" },
+    "from": {
+      "allOf": [
+        { "$ref": "common.json#/$defs/agentName" },
+        {
+          "not": { "const": "lob-bot" },
+          "description": "lob-bot cannot send chatter; workers communicate among themselves only"
+        }
+      ]
+    },
+    "to": { "$ref": "common.json#/$defs/agentName" },
+    "timestamp": { "$ref": "common.json#/$defs/isoTimestamp" },
+    "question": { "type": "string", "minLength": 1, "maxLength": 500 },
+    "response": { "type": "string", "maxLength": 500 },
+    "responded_by": { "$ref": "common.json#/$defs/agentName" },
+    "responded_at": { "$ref": "common.json#/$defs/isoTimestamp" }
+  },
+  "dependentRequired": {
+    "response": ["responded_by", "responded_at"],
+    "responded_by": ["response", "responded_at"],
+    "responded_at": ["response", "responded_by"]
+  },
+  "$comment": "lob-bot is explicitly forbidden from emitting chatter; see from.allOf[1]"
+}

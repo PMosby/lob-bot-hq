@@ -1,0 +1,188 @@
+{
+  "$id": "https://lob-bot-hq/schemas/handoff.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Caveman protocol — handoff message",
+  "type": "object",
+  "required": [
+    "type",
+    "schema_version",
+    "ticket",
+    "ticket_repo",
+    "from",
+    "to",
+    "status",
+    "timestamp",
+    "title",
+    "fields"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "type": { "const": "handoff" },
+    "schema_version": { "const": 1 },
+    "ticket": { "$ref": "common.json#/$defs/ticketNumber" },
+    "ticket_repo": { "$ref": "common.json#/$defs/ticketRepo" },
+    "from": { "$ref": "common.json#/$defs/agentName" },
+    "to": { "$ref": "common.json#/$defs/agentName" },
+    "status": { "$ref": "common.json#/$defs/status" },
+    "timestamp": { "$ref": "common.json#/$defs/isoTimestamp" },
+    "title": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "fields": { "type": "object" },
+    "notes": { "type": "string", "maxLength": 500 }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "ready" } } },
+      "then": {
+        "properties": {
+          "fields": {
+            "type": "object",
+            "required": ["acceptance", "effort", "priority"],
+            "additionalProperties": false,
+            "properties": {
+              "acceptance": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 5,
+                "items": { "type": "string", "minLength": 1 }
+              },
+              "effort": { "$ref": "common.json#/$defs/effort" },
+              "priority": { "$ref": "common.json#/$defs/priority" },
+              "dependencies": {
+                "type": "array",
+                "items": { "$ref": "common.json#/$defs/ticketNumber" }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "assigned" } } },
+      "then": {
+        "properties": {
+          "fields": {
+            "type": "object",
+            "required": ["sprint", "pr_target_branch", "branch_name"],
+            "additionalProperties": false,
+            "properties": {
+              "sprint": { "type": "integer", "minimum": 1 },
+              "pr_target_branch": { "type": "string", "minLength": 1 },
+              "branch_name": {
+                "type": "string",
+                "pattern": "^(engineer|qa|po|scrum)/[0-9]+-[a-z0-9-]+$"
+              },
+              "due": { "type": "string", "format": "date" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "ready-for-test" } } },
+      "then": {
+        "properties": {
+          "fields": {
+            "type": "object",
+            "required": [
+              "pr",
+              "branch",
+              "changed_files",
+              "test_command",
+              "self_test"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "pr": { "type": "string", "format": "uri" },
+              "branch": { "type": "string", "minLength": 1 },
+              "changed_files": {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": "string", "minLength": 1 }
+              },
+              "test_command": { "type": "string", "minLength": 1 },
+              "self_test": {
+                "type": "string",
+                "enum": ["passed", "failed", "skipped"]
+              },
+              "setup_required": {
+                "oneOf": [
+                  { "type": "boolean" },
+                  { "type": "string", "minLength": 1 }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": { "enum": ["qa-pass", "qa-fail"] }
+        }
+      },
+      "then": {
+        "properties": {
+          "fields": {
+            "type": "object",
+            "required": [
+              "pr",
+              "acceptance_results",
+              "regressions",
+              "recommendation"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "pr": { "type": "string", "format": "uri" },
+              "acceptance_results": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": ["criterion", "result"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "criterion": { "type": "string", "minLength": 1 },
+                    "result": {
+                      "type": "string",
+                      "enum": ["pass", "fail"]
+                    },
+                    "evidence": { "type": "string" }
+                  }
+                }
+              },
+              "regressions": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "recommendation": {
+                "type": "string",
+                "enum": ["approve", "reject", "needs-changes"]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "blocked" } } },
+      "then": {
+        "properties": {
+          "fields": {
+            "type": "object",
+            "required": ["blocker", "needs"],
+            "additionalProperties": false,
+            "properties": {
+              "blocker": { "type": "string", "minLength": 1 },
+              "needs": {
+                "type": "string",
+                "enum": ["human", "external", "dependency"]
+              },
+              "details": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
